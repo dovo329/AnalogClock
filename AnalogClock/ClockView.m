@@ -39,8 +39,6 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
     
-    self.backgroundColor = [UIColor whiteColor];
-    
     CGRect clockRect;
     CGFloat outerLineWidth = 5.0;
     CGFloat diameter = MIN(rect.size.width, rect.size.height) - (outerLineWidth*2.0);
