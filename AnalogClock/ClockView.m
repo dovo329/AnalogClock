@@ -52,7 +52,7 @@
 
     
     CGFloat hue, saturation, brightness, alpha;
-    UIColor *color = [UIColor redColor];
+    UIColor *color = self.color;
     [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
     //NSLog(@"hue=%f saturation=%f brightness=%f alpha=%f", hue, saturation, brightness, alpha);
     
@@ -120,14 +120,13 @@
     CGGradientRelease (bottomGradient);
     CGContextRestoreGState(context);*/
     
-    
     CGContextSaveGState(context);
     CGContextSetLineWidth(context, outerLineWidth);
-    UIColor *circleColor = [UIColor redColor];
-    CGContextSetStrokeColorWithColor(context, circleColor.CGColor);
+    CGContextSetStrokeColorWithColor(context, self.color.CGColor);
     CGContextAddEllipseInRect(context, clockRect);
     CGContextStrokePath(context);
     CGContextRestoreGState(context);
+    
     
     
     [self drawHand:context rect:rect radius:radius lineWidth:1.0 value:self.seconds thresh:60.0 color:[UIColor blackColor]];

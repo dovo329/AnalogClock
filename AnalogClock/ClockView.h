@@ -10,6 +10,7 @@
 
 @interface ClockView : UIView
 
+@property (nonatomic) UIColor *color;
 @property (nonatomic) int seconds;
 @property (nonatomic) int minutes;
 @property (nonatomic) int hours;
