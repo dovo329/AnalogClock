@@ -56,7 +56,7 @@
     [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
     //NSLog(@"hue=%f saturation=%f brightness=%f alpha=%f", hue, saturation, brightness, alpha);
     
-    UIColor *topColor1 = [UIColor colorWithHue:hue saturation:(0.0*saturation) brightness:(1.0*brightness) alpha:alpha];
+    UIColor *topColor1 = [UIColor whiteColor];
     UIColor *topColor2 = [UIColor colorWithHue:hue saturation:(1.0*saturation) brightness:(1.0*brightness) alpha:alpha];
     UIColor *bottomColor1 = [UIColor colorWithHue:hue saturation:(1.0*saturation) brightness:(1.0*brightness) alpha:alpha];
     UIColor *bottomColor2 = [UIColor colorWithHue:hue saturation:(1.0*saturation) brightness:(0.8*brightness) alpha:alpha];

@@ -44,7 +44,7 @@
     self.view.seconds = 0.0;
     self.view.minutes = 0.0;
     self.view.hours = 0.0;
-    self.view.color = [UIColor greenColor];
+    self.view.color = [UIColor purpleColor];
 }
 
 - (void)viewDidLoad {
