@@ -56,8 +56,8 @@
     [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
     //NSLog(@"hue=%f saturation=%f brightness=%f alpha=%f", hue, saturation, brightness, alpha);
     
-    UIColor *topColor1 = [UIColor colorWithHue:hue saturation:(0.3*saturation) brightness:(1.0*brightness) alpha:alpha];
-    UIColor *topColor2 = [UIColor colorWithHue:hue saturation:(0.8*saturation) brightness:(1.0*brightness) alpha:alpha];
+    UIColor *topColor1 = [UIColor colorWithHue:hue saturation:(0.0*saturation) brightness:(1.0*brightness) alpha:alpha];
+    UIColor *topColor2 = [UIColor colorWithHue:hue saturation:(1.0*saturation) brightness:(1.0*brightness) alpha:alpha];
     UIColor *bottomColor1 = [UIColor colorWithHue:hue saturation:(1.0*saturation) brightness:(1.0*brightness) alpha:alpha];
     UIColor *bottomColor2 = [UIColor colorWithHue:hue saturation:(1.0*saturation) brightness:(0.8*brightness) alpha:alpha];
     
@@ -83,13 +83,18 @@
     topGradient = CGGradientCreateWithColorComponents (colorspace, topComponents,
                                                        topLocations, 2);
     CGContextSaveGState(context);
+    CGPoint startPoint = clockRect.origin;
+    startPoint.x += radius/2.0;
+    startPoint.y += radius/2.0;
     CGPoint endPoint = clockRect.origin;
+    endPoint.x += radius;
     endPoint.y += radius;
     CGContextSetLineWidth(context, outerLineWidth);
     CGContextAddEllipseInRect(context, clockRect);
     CGContextClosePath(context);
     CGContextClip(context);
-    CGContextDrawLinearGradient (context, topGradient, clockRect.origin, endPoint, 0);
+    //CGContextDrawLinearGradient (context, topGradient, clockRect.origin, endPoint, 0);
+    CGContextDrawRadialGradient(context, topGradient, startPoint, 0.0, endPoint, radius, NULL);
     CGGradientRelease (topGradient);
     CGContextRestoreGState(context);
     
@@ -101,7 +106,7 @@
     };
     bottomGradient = CGGradientCreateWithColorComponents (colorspace, bottomComponents,
                                                        bottomLocations, 2);
-    CGContextSaveGState(context);
+/*    CGContextSaveGState(context);
     CGPoint startPoint = clockRect.origin;
     startPoint.y += radius;
     endPoint = clockRect.origin;
@@ -111,22 +116,23 @@
     CGContextClosePath(context);
     CGContextClip(context);
     CGContextDrawLinearGradient (context, bottomGradient, startPoint, endPoint, 0);
+    //CGContextDrawRadialGradient(context, bottomGradient, endPoint, 1.0, endPoint, radius, NULL);
     CGGradientRelease (bottomGradient);
-    CGContextRestoreGState(context);
+    CGContextRestoreGState(context);*/
     
     
     CGContextSaveGState(context);
     CGContextSetLineWidth(context, outerLineWidth);
-    UIColor *circleColor = [UIColor blueColor];
+    UIColor *circleColor = [UIColor redColor];
     CGContextSetStrokeColorWithColor(context, circleColor.CGColor);
     CGContextAddEllipseInRect(context, clockRect);
     CGContextStrokePath(context);
     CGContextRestoreGState(context);
     
     
-    [self drawHand:context rect:rect radius:radius lineWidth:1.0 value:self.seconds thresh:60.0 color:[UIColor purpleColor]];
-    [self drawHand:context rect:rect radius:radius lineWidth:5.0 value:self.minutes thresh:60.0 color:[UIColor brownColor]];
-    [self drawHand:context rect:rect radius:(radius/2.0) lineWidth:10.0 value:self.hours thresh:12.0 color:[UIColor orangeColor]];
+    [self drawHand:context rect:rect radius:radius lineWidth:1.0 value:self.seconds thresh:60.0 color:[UIColor blackColor]];
+    [self drawHand:context rect:rect radius:radius lineWidth:5.0 value:self.minutes thresh:60.0 color:[UIColor blackColor]];
+    [self drawHand:context rect:rect radius:(radius/2.0) lineWidth:10.0 value:self.hours thresh:12.0 color:[UIColor blackColor]];
 
     CGColorSpaceRelease (colorspace);
     
