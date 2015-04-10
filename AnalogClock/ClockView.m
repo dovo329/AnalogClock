@@ -8,8 +8,65 @@
 
 #import "ClockView.h"
 
+@interface ClockView ()
+
+@property (nonatomic) NSTimer *timer;
+
+@end
+
+
 @implementation ClockView
 
+- (id)initWithColor:(UIColor *)color frame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    // fire the timerHandler every second
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                              target:self
+                                            selector:@selector(timerHandler)
+                                            userInfo:nil
+                                             repeats:YES];
+    _color = color;
+    _rotationInDegrees = 0.0;
+    _seconds = 0.0;
+    _minutes = 0.0;
+    _hours = 0.0;
+    _orientation = 0;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame
+{
+    return [self initWithColor:[UIColor redColor] frame:frame];
+}
+
+- (id)init
+{
+    return [self initWithColor:[UIColor redColor] frame:[[UIScreen mainScreen] bounds]];
+}
+
+- (void)timerHandler
+{
+    NSDate *now = [NSDate date];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"ss";
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    int seconds = [[dateFormatter stringFromDate:now] intValue];
+    dateFormatter.dateFormat = @"mm";
+    int minutes = [[dateFormatter stringFromDate:now] intValue];
+    dateFormatter.dateFormat = @"hh";
+    int hours = [[dateFormatter stringFromDate:now] intValue];
+    //NSLog(@"The Current Time is hour: %d, min: %d, sec: %d", hours, minutes, seconds);
+    
+    self.seconds = seconds;
+    self.minutes = minutes;
+    self.hours   = hours;
+    [self setNeedsDisplay];
+}
 
 - (void)drawHand:(CGContextRef)context rect:(CGRect)rect radius:(CGFloat)radius lineWidth:(CGFloat)lineWidth value:(int)value thresh:(int)thresh color:(UIColor *)color
 {
@@ -113,5 +170,43 @@
     [super drawRect:rect];
 
 }
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+static UIDeviceOrientation previousOrientation;
+
+-(void)OrientationDidChange:(NSNotification*)notification
+{
+    UIDeviceOrientation Orientation=[[UIDevice currentDevice]orientation];
+    
+    NSLog(@"Orientation changed!");
+    
+    if(Orientation==UIDeviceOrientationLandscapeLeft)
+    {
+        self.rotationInDegrees = 0.0;
+    }
+    else if(Orientation==UIDeviceOrientationLandscapeRight)
+    {
+        self.rotationInDegrees = 0.0;
+    }
+    else if(Orientation==UIDeviceOrientationPortrait)
+    {
+        self.rotationInDegrees = 0.0;
+    }
+    else if (Orientation==UIDeviceOrientationPortraitUpsideDown)
+    {
+        if (previousOrientation == UIDeviceOrientationLandscapeLeft) {
+            self.rotationInDegrees = 90.0;
+        } else {
+            self.rotationInDegrees = -90.0;
+        }
+    }
+    [self setNeedsDisplay];
+    previousOrientation = Orientation;
+}
+
 
 @end
