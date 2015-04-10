@@ -11,8 +11,10 @@
 @interface ClockView : UIView
 
 @property (nonatomic) UIColor *color;
+@property (nonatomic) CGFloat rotationInDegrees;
 @property (nonatomic) int seconds;
 @property (nonatomic) int minutes;
 @property (nonatomic) int hours;
+@property (nonatomic) int orientation;
 
 @end
